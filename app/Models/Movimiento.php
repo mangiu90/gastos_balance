@@ -14,6 +14,11 @@ class Movimiento extends Model
     public const INGRESO = 'INGRESO';
     public const EGRESO = 'EGRESO';
 
+    public const TIPO_OPTIONS = [
+        self::INGRESO => self::INGRESO,
+        self::EGRESO => self::EGRESO,
+    ];
+
     /**
      * The attributes that are mass assignable.
      *

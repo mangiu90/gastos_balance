@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Orchid\Screens\Eventos\EventosListScreen;
 use App\Orchid\Screens\Examples\ExampleCardsScreen;
 use App\Orchid\Screens\Examples\ExampleChartsScreen;
 use App\Orchid\Screens\Examples\ExampleFieldsAdvancedScreen;
@@ -9,6 +10,7 @@ use App\Orchid\Screens\Examples\ExampleFieldsScreen;
 use App\Orchid\Screens\Examples\ExampleLayoutsScreen;
 use App\Orchid\Screens\Examples\ExampleScreen;
 use App\Orchid\Screens\Examples\ExampleTextEditorsScreen;
+use App\Orchid\Screens\Movimientos\MovimientosListScreen;
 use App\Orchid\Screens\PlatformScreen;
 use App\Orchid\Screens\Role\RoleEditScreen;
 use App\Orchid\Screens\Role\RoleListScreen;
@@ -111,5 +113,10 @@ Route::screen('example-charts', ExampleChartsScreen::class)->name('platform.exam
 Route::screen('example-editors', ExampleTextEditorsScreen::class)->name('platform.example.editors');
 Route::screen('example-cards', ExampleCardsScreen::class)->name('platform.example.cards');
 Route::screen('example-advanced', ExampleFieldsAdvancedScreen::class)->name('platform.example.advanced');
+
+
+
+Route::screen('eventos', EventosListScreen::class)->name('platform.eventos.list');
+Route::screen('movimientos', MovimientosListScreen::class)->name('platform.movimientos.list');
 
 //Route::screen('idea', Idea::class, 'platform.screens.idea');
