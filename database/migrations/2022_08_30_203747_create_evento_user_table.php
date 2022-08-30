@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Movimiento;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,14 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('movimientos', function (Blueprint $table) {
+        Schema::create('evento_user', function (Blueprint $table) {
             $table->id();
 
-            $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('evento_id');
-            $table->dateTime('fecha')->useCurrent();
-            $table->decimal('monto', 16, 2);
-            $table->enum('tipo', [Movimiento::INGRESO, Movimiento::EGRESO]);
+            $table->unsignedBigInteger('user_id');
 
             $table->foreign('evento_id')->references('id')->on('eventos')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
@@ -37,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('movimientos');
+        Schema::dropIfExists('evento_user');
     }
 };

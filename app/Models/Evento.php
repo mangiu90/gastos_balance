@@ -49,4 +49,21 @@ class Evento extends Model
     {
         return $this->hasMany(Movimiento::class);
     }
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class);
+    }
+
+    public function balance()
+    {
+        return $this->movimientos()
+            ->selectRaw("sum(case when tipo = '" . Movimiento::EGRESO . "' then monto * -1 else monto end) as saldo")
+            ->first()['saldo'];
+    }
+
+    public function balancePorUsuario()
+    {
+        return $this->balance() / $this->users()->count();
+    }
 }

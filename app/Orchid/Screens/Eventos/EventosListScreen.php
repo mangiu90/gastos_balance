@@ -5,6 +5,8 @@ namespace App\Orchid\Screens\Eventos;
 use Orchid\Screen\TD;
 use App\Models\Evento;
 use Illuminate\Http\Request;
+use Orchid\Screen\Actions\Button;
+use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Screen;
 use Orchid\Support\Facades\Toast;
 use Orchid\Support\Facades\Layout;
@@ -46,7 +48,7 @@ class EventosListScreen extends Screen
             ModalToggle::make('Crear Evento')
                 ->modal('crearEventoModal')
                 ->method('crearEvento')
-                ->icon('add'),
+                ->icon('plus'),
         ];
     }
 
@@ -60,6 +62,26 @@ class EventosListScreen extends Screen
         return [
             Layout::table('eventos', [
                 TD::make('nombre'),
+                TD::make('Balance')
+                    ->render(function ($row) {
+                        return number_format($row->balance(), 2);
+                    }),
+
+                TD::make()
+                    ->alignRight()
+                    ->render(function ($row) {
+                        return Link::make()
+                            ->icon('pencil')
+                            ->route('platform.eventos.show', $row);
+                    }),
+                TD::make()
+                    ->alignRight()
+                    ->render(function ($row) {
+                        return Button::make()
+                            ->icon('trash')
+                            ->confirm('Estas seguro de eliminar este evento?')
+                            ->method('eliminar', ['evento_id' => $row->id]);
+                    }),
             ]),
 
             Layout::modal('crearEventoModal', [
@@ -75,7 +97,14 @@ class EventosListScreen extends Screen
     public function crearEvento(Request $request): void
     {
         Evento::create($request->evento);
-        
+
         Toast::info('Evento creado.');
+    }
+
+    public function eliminar(Request $request): void
+    {
+        Evento::findOrFail($request->evento_id)->delete();
+
+        Toast::info('Evento eliminado.');
     }
 }

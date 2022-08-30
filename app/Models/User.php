@@ -61,4 +61,34 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+
+    public function eventos()
+    {
+        return $this->belongsToMany(Evento::class);
+    }
+
+    public function movimientos()
+    {
+        return $this->hasMany(Movimiento::class);
+    }
+
+
+    public function eventoPropio($evento_id)
+    {
+        return $this->eventos()->where('evento_id', $evento_id)->first();
+    }
+
+    public function balancePorEvento($evento_id)
+    {
+        return $this->movimientos()
+            ->where('evento_id', $evento_id)
+            ->selectRaw("sum(case when tipo = '" . Movimiento::EGRESO . "' then monto * -1 else monto end) as saldo")
+            ->first()['saldo'];
+    }
+
+    public function saldoPorEvento($evento_id)
+    {
+        return $this->balancePorEvento($evento_id) - $this->eventoPropio($evento_id)->balancePorUsuario();
+    }
 }

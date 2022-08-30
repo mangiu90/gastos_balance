@@ -15,9 +15,11 @@ return new class extends Migration
     {
         Schema::create('eventos', function (Blueprint $table) {
             $table->id();
+
             $table->string('nombre')->unique();
             $table->dateTime('fecha_inicio')->useCurrent();
             $table->boolean('finalizado')->default(false);
+            
             $table->timestamps();
         });
     }
