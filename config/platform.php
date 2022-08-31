@@ -128,8 +128,8 @@ return [
     */
 
     'template' => [
-        'header' => '',
-        'footer' => '',
+        'header' => 'brand.header',
+        'footer' => 'brand.footer',
     ],
 
     /*
@@ -158,6 +158,7 @@ return [
 
     'icons' => [
         'orc' => \Orchid\IconPack\Path::getFolder(),
+        'fa' => resource_path('icons/fontawesome')
     ],
 
     /*
