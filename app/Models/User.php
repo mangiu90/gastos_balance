@@ -84,7 +84,7 @@ class User extends Authenticatable
         return $this->eventos()->where('evento_id', $evento_id)->first();
     }
 
-    public function balancePorEvento($evento_id)
+    public function gastosPorEvento($evento_id)
     {
         return $this->movimientos()
             ->where('evento_id', $evento_id)
@@ -92,8 +92,8 @@ class User extends Authenticatable
             ->first()['saldo'];
     }
 
-    public function saldoPorEvento($evento_id)
+    public function balancePorEvento($evento_id)
     {
-        return $this->balancePorEvento($evento_id) - $this->eventoPropio($evento_id)->balancePorUsuario();
+        return $this->gastosPorEvento($evento_id) - $this->eventoPropio($evento_id)->gastosPorUsuario();
     }
 }

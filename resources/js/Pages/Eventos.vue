@@ -55,7 +55,7 @@ const unirse = () => {
 
                             <button v-if="evento.usuario_pertenece" type="button"
                                 class="mt-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
-                                Añadir
+                                Nuevo Gasto
                             </button>
                         </div>
 
@@ -83,11 +83,11 @@ const unirse = () => {
                                             {{ item.name }}
                                         </th>
                                         <td class="py-4 px-6 text-end">
-                                            {{ item.balance }}
+                                            {{ item.gastos }}
                                         </td>
-                                        <td :class="{ 'text-green-600': item.saldo >= 0, 'text-red-600': item.saldo < 0 }"
+                                        <td :class="{ 'text-green-600': item.color == 'green', 'text-red-600': item.color == 'red' }"
                                             class="py-4 px-6 text-end">
-                                            {{ item.saldo }}
+                                            {{ item.balance }}
                                         </td>
                                     </tr>
 
@@ -96,8 +96,8 @@ const unirse = () => {
                         </div>
 
                         <div class="flex justify-center gap-5 my-3">
-                            <div>Gasto Total: <span class="font-bold">${{evento.balance}}</span></div>
-                            <div>Gasto Individual: <span class="font-bold">${{evento.balance_usuario}}</span></div>
+                            <div>Gastos Totales: <span class="font-bold">${{evento.gastos}}</span></div>
+                            <div>Gastos por Usuario: <span class="font-bold">${{evento.gastos_usuario}}</span></div>
                         </div>
 
                     </div>

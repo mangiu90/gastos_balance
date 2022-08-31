@@ -15,14 +15,16 @@ class EventosController extends Controller
         Evento::all()->map(function ($evento) use (&$eventos) {
             $ev['id'] = $evento->id;
             $ev['nombre'] = $evento->nombre;
-            $ev['balance'] = number_format($evento->balance(), 2);
-            $ev['balance_usuario'] = number_format($evento->balancePorUsuario(), 2);
+            $ev['gastos'] = number_format($evento->gastos(), 2);
+            $ev['gastos_usuario'] = number_format($evento->gastosPorUsuario(), 2);
             $ev['usuario_pertenece'] = $evento->usuarioPertenece(auth()->id());
             $ev['users'] = $evento->users->transform(function ($user) use ($evento) {
+                $balance = $user->balancePorEvento($evento->id);
                 return [
                     'name' => $user->name,
-                    'balance' => number_format($user->balancePorEvento($evento->id), 2),
-                    'saldo' => number_format($user->saldoPorEvento($evento->id), 2),
+                    'gastos' => number_format($user->gastosPorEvento($evento->id), 2),
+                    'balance' => number_format($balance, 2),
+                    'color' => $balance < 0 ? 'red' : 'green',
                 ];
             });
 

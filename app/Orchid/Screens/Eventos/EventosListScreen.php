@@ -64,7 +64,7 @@ class EventosListScreen extends Screen
                 TD::make('nombre'),
                 TD::make('Balance')
                     ->render(function ($row) {
-                        return number_format($row->balance(), 2);
+                        return number_format($row->gastos(), 2);
                     }),
 
                 TD::make()

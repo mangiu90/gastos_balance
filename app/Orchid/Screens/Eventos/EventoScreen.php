@@ -46,7 +46,7 @@ class EventoScreen extends Screen
      */
     public function description(): ?string
     {
-        return 'Balance total: ' . number_format($this->evento->balance(), 2) . ' | Balance por usuario: ' . number_format($this->evento->balancePorUsuario(), 2);
+        return 'Gastos totales: ' . number_format($this->evento->gastos(), 2) . ' | Gastos por usuario: ' . number_format($this->evento->gastosPorUsuario(), 2);
     }
 
     /**
@@ -74,13 +74,15 @@ class EventoScreen extends Screen
         return [
             Layout::table('users', [
                 TD::make('name'),
+                TD::make('Gastos')
+                    ->alignRight()
+                    ->render(function ($row) {
+                        return number_format($row->gastosPorEvento($this->evento->id), 2);
+                    }),
                 TD::make('Balance')
+                    ->alignRight()
                     ->render(function ($row) {
                         return number_format($row->balancePorEvento($this->evento->id), 2);
-                    }),
-                TD::make('Saldo')
-                    ->render(function ($row) {
-                        return number_format($row->saldoPorEvento($this->evento->id), 2);
                     }),
             ]),
 
