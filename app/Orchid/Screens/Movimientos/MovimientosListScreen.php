@@ -67,6 +67,7 @@ class MovimientosListScreen extends Screen
                 TD::make('user.name', 'Usuario'),
                 TD::make('evento.nombre', 'Evento'),
                 TD::make('fecha'),
+                TD::make('detalle'),
                 TD::make('tipo')
                     ->render(function ($row) {
                         return $row->tipo === Movimiento::INGRESO
@@ -101,6 +102,9 @@ class MovimientosListScreen extends Screen
                         ->fromModel(Evento::class, 'nombre')
                         ->required()
                         ->title('Evento'),
+                    Input::make('movimiento.detalle')
+                        ->required()
+                        ->title('Detalle'),
                     Input::make('movimiento.monto')
                         ->required()
                         ->mask([

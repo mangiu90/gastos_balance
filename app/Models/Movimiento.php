@@ -30,6 +30,7 @@ class Movimiento extends Model
         'fecha',
         'monto',
         'tipo',
+        'detalle',
     ];
 
     /**
@@ -43,6 +44,7 @@ class Movimiento extends Model
         'fecha',
         'monto',
         'tipo',
+        'detalle',
     ];
 
     /**
@@ -56,6 +58,7 @@ class Movimiento extends Model
         'fecha',
         'monto',
         'tipo',
+        'detalle',
     ];
 
 
