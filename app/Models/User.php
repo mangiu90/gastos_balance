@@ -74,6 +74,11 @@ class User extends Authenticatable
     }
 
 
+    public function isAdmin()
+    {
+        return $this->hasAccess('platform.systems.users');
+    }
+
     public function eventoPropio($evento_id)
     {
         return $this->eventos()->where('evento_id', $evento_id)->first();

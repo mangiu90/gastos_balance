@@ -64,6 +64,15 @@ class Evento extends Model
 
     public function balancePorUsuario()
     {
-        return $this->balance() / $this->users()->count();
+        $count = $this->users()->count();
+        if ($count == 0) {
+            return 0;
+        }
+        return $this->balance() / $count;
+    }
+
+    public function usuarioPertenece($user_id)
+    {
+        return in_array($user_id, $this->users->pluck('id')->all());
     }
 }
