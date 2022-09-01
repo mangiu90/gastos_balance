@@ -6,6 +6,7 @@ use Inertia\Inertia;
 use App\Models\Evento;
 use App\Models\Movimiento;
 use App\Http\Requests\NuevoGastoRequest;
+use Illuminate\Http\Request;
 
 class EventosController extends Controller
 {
@@ -45,7 +46,6 @@ class EventosController extends Controller
 
     public function nuevoGasto(Evento $evento, NuevoGastoRequest $request)
     {
-        // dd($evento, $request->all());
         $eventoPropio = auth()->user()->eventoPropio($evento->id);
 
         if (isset($eventoPropio)) {
@@ -57,5 +57,16 @@ class EventosController extends Controller
             $data['detalle'] = $request->detalle;
             Movimiento::create($data);
         }
+    }
+
+    public function crearEvento(Request $request)
+    {
+        $request->validate([
+            'nombre' => ['required', 'unique:eventos']
+        ]);
+
+        Evento::create([
+            'nombre' => $request->nombre,
+        ]);
     }
 }

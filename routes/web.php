@@ -28,4 +28,5 @@ Route::middleware([
     Route::get('/eventos', [EventosController::class, 'index'])->name('eventos');
     Route::post('/evento/{evento}/unirse', [EventosController::class, 'unirse'])->name('eventos.unirse');
     Route::post('/evento/{evento}/nuevo-gasto', [EventosController::class, 'nuevoGasto'])->name('eventos.nuevo-gasto');
+    Route::post('/evento/crear', [EventosController::class, 'crearEvento'])->name('eventos.crear');
 });

@@ -34,7 +34,7 @@ const unirse = () => {
 
 //unirse modal
 const nuevoGastoForm = useForm({
-    tipo: 'Gasto',
+    tipo: 'INGRESO',
     monto: '',
     detalle: '',
 });
@@ -48,8 +48,8 @@ const nuevoGasto = () => {
     nuevoGastoForm.post(route('eventos.nuevo-gasto', eventoAGastar.value.id), {
         preserveScroll: true,
         preserveState: true,
-        onSuccess: () => (eventoAGastar.value = null),
-        onFinish: () => nuevoGastoForm.reset(),
+        onSuccess: () => cerrarNuevoGastoModal(),
+        onFinish: () => cerrarNuevoGastoModal(),
     });
 };
 
@@ -58,15 +58,45 @@ const cerrarNuevoGastoModal = () => {
     nuevoGastoForm.reset()
 }
 
+//crear evento modal
+const crearEventoForm = useForm({
+    nombre: '',
+});
+const mostrarCrearEventoModal = ref(false);
+const nombreInput = ref(null);
+
+const confirmCrearEvento = () => {
+    mostrarCrearEventoModal.value = true;
+    setTimeout(() => nombreInput.value.focus(), 250);
+};
+
+const crearEvento = () => {
+    crearEventoForm.post(route('eventos.crear'), {
+        preserveScroll: true,
+        preserveState: true,
+        onSuccess: () => (mostrarCrearEventoModal.value = false),
+        onFinish: () => crearEventoForm.reset(),
+    });
+};
+
+const cerrarCrearEventoModal = () => {
+    mostrarCrearEventoModal.value = false
+    crearEventoForm.reset()
+}
+
 </script>
 
 <template>
     <AppLayout title="Eventos">
-        <!-- <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Eventos
-            </h2>
-        </template> -->
+        <template #header>
+            <div class="flex justify-between">
+                <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                    Eventos
+                </h2>
+
+                <JetButton @click="confirmCrearEvento">Nuevo</JetButton>
+            </div>
+        </template>
 
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -168,13 +198,14 @@ const cerrarNuevoGastoModal = () => {
                 <div>
                     <JetLabel for="tipo" value="Tipo" class="mb-1" />
                     <select id="tipo" v-model="nuevoGastoForm.tipo" required
-                    class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                        <option v-for="tipo_option, key in tipo_options">{{ tipo_option }}</option>
+                        class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                        <option v-for="tipo_option, key in tipo_options" :value="key">{{ tipo_option }}</option>
                     </select>
                 </div>
                 <div class="">
                     <JetLabel for="monto" value="Monto" />
-                    <JetInput id="monto" v-model="nuevoGastoForm.monto" type="number" class="mt-1 block w-full text-end" />
+                    <JetInput id="monto" v-model="nuevoGastoForm.monto" type="number"
+                        class="mt-1 block w-full text-end" />
                     <JetInputError class="mt-2" :message="nuevoGastoForm.errors.monto" />
                 </div>
                 <div class="mt-4 col-span-2">
@@ -187,12 +218,41 @@ const cerrarNuevoGastoModal = () => {
 
         <template #footer>
             <JetSecondaryButton @click="cerrarNuevoGastoModal">
-                Cancel
+                Cancelar
             </JetSecondaryButton>
 
             <JetButton class="ml-3" :class="{ 'opacity-25': nuevoGastoForm.processing }"
                 :disabled="nuevoGastoForm.processing" @click="nuevoGasto">
-                Save
+                Guardar
+            </JetButton>
+        </template>
+    </JetDialogModal>
+
+    <!-- Nuevo Evento Modal -->
+    <JetDialogModal :show="mostrarCrearEventoModal" @close="cerrarCrearEventoModal">
+        <template #title>
+            Crear nuevo evento
+        </template>
+
+        <template #content>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="mt-4 col-span-2">
+                    <JetLabel for="nombre" value="Nombre" />
+                    <JetInput id="nombre" v-model="crearEventoForm.nombre" type="text" class="mt-1 block w-full"
+                        @keyup.enter="crearEvento" ref="nombreInput" />
+                    <JetInputError class="mt-2" :message="crearEventoForm.errors.nombre" />
+                </div>
+            </div>
+        </template>
+
+        <template #footer>
+            <JetSecondaryButton @click="cerrarCrearEventoModal">
+                Cancelar
+            </JetSecondaryButton>
+
+            <JetButton class="ml-3" :class="{ 'opacity-25': crearEventoForm.processing }"
+                :disabled="crearEventoForm.processing" @click="crearEvento">
+                Guardar
             </JetButton>
         </template>
     </JetDialogModal>
