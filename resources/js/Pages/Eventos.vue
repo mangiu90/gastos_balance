@@ -13,8 +13,10 @@ import JetSecondaryButton from '@/Components/SecondaryButton.vue';
 
 defineProps({
     eventos: Array,
+    tipo_options: Object,
 });
 
+//unirse modal
 const unirseForm = useForm();
 const eventoAUnirse = ref(null);
 
@@ -27,6 +29,27 @@ const unirse = () => {
         preserveScroll: true,
         preserveState: true,
         onSuccess: () => (eventoAUnirse.value = null),
+    });
+};
+
+//unirse modal
+const nuevoGastoForm = useForm({
+    tipo: 'INGRESO',
+    monto: '',
+    detalle: '',
+});
+const eventoAGastar = ref(null);
+
+const confirmNuevoGasto = (evento) => {
+    eventoAGastar.value = evento;
+};
+
+const nuevoGasto = () => {
+    nuevoGastoForm.post(route('eventos.nuevo-gasto', eventoAGastar.value.id), {
+        preserveScroll: true,
+        preserveState: true,
+        onSuccess: () => (eventoAGastar.value = null),
+        onFinish: () => form.reset(),
     });
 };
 
@@ -53,7 +76,7 @@ const unirse = () => {
                                 Unirse
                             </button>
 
-                            <button v-if="evento.usuario_pertenece" type="button"
+                            <button v-if="evento.usuario_pertenece" type="button" @click="confirmNuevoGasto(evento)"
                                 class="mt-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
                                 Nuevo Gasto
                             </button>
@@ -96,8 +119,8 @@ const unirse = () => {
                         </div>
 
                         <div class="flex justify-center gap-5 my-3">
-                            <div>Gastos Totales: <span class="font-bold">${{evento.gastos}}</span></div>
-                            <div>Gastos por Usuario: <span class="font-bold">${{evento.gastos_usuario}}</span></div>
+                            <div>Gastos Totales: <span class="font-bold">${{ evento.gastos }}</span></div>
+                            <div>Gastos por Usuario: <span class="font-bold">${{ evento.gastos_usuario }}</span></div>
                         </div>
 
                     </div>
@@ -109,7 +132,7 @@ const unirse = () => {
     <!-- Unirse Confirmation Modal -->
     <JetConfirmationModal :show="eventoAUnirse != null" @close="eventoAUnirse = null">
         <template #title>
-            Unirse a {{eventoAUnirse.nombre}}
+            Unirse a {{ eventoAUnirse.nombre }}
         </template>
 
         <template #content>
@@ -128,4 +151,43 @@ const unirse = () => {
             </JetDangerButton>
         </template>
     </JetConfirmationModal>
+
+    <!-- Nuevo Gasto Modal -->
+    <JetDialogModal :show="eventoAGastar != null" @close="eventoAGastar = null">
+        <template #title>
+            Nuevo Gasto para {{ eventoAGastar.nombre }}
+        </template>
+
+        <template #content>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <JetLabel for="tipo" value="Tipo" class="mb-1" />
+                    <select id="tipo" v-model="nuevoGastoForm.tipo" required>
+                        <option v-for="tipo_option, key in tipo_options">{{ tipo_option }}</option>
+                    </select>
+                </div>
+                <div class="">
+                    <JetLabel for="monto" value="Monto" />
+                    <JetInput id="monto" v-model="nuevoGastoForm.monto" type="number" class="mt-1 block w-full text-end" />
+                    <JetInputError class="mt-2" :message="nuevoGastoForm.errors.monto" />
+                </div>
+                <div class="mt-4 col-span-2">
+                    <JetLabel for="detalle" value="detalle" />
+                    <JetInput id="detalle" v-model="nuevoGastoForm.detalle" type="text" class="mt-1 block w-full" />
+                    <JetInputError class="mt-2" :message="nuevoGastoForm.errors.detalle" />
+                </div>
+            </div>
+        </template>
+
+        <template #footer>
+            <JetSecondaryButton @click="eventoAGastar = null">
+                Cancel
+            </JetSecondaryButton>
+
+            <JetButton class="ml-3" :class="{ 'opacity-25': nuevoGastoForm.processing }"
+                :disabled="nuevoGastoForm.processing" @click="nuevoGasto">
+                Save
+            </JetButton>
+        </template>
+    </JetDialogModal>
 </template>

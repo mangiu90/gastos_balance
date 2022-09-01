@@ -27,5 +27,5 @@ Route::middleware([
 ])->group(function () {
     Route::get('/eventos', [EventosController::class, 'index'])->name('eventos');
     Route::post('/evento/{evento}/unirse', [EventosController::class, 'unirse'])->name('eventos.unirse');
-    Route::post('/evento/add-movimiento', [EventosController::class, 'addMovimiento'])->name('eventos.add-movimiento');
+    Route::post('/evento/{evento}/nuevo-gasto', [EventosController::class, 'nuevoGasto'])->name('eventos.nuevo-gasto');
 });

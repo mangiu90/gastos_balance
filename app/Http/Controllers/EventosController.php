@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Evento;
 use Inertia\Inertia;
-use Illuminate\Http\Request;
+use App\Models\Evento;
+use App\Models\Movimiento;
+use App\Http\Requests\NuevoGastoRequest;
 
 class EventosController extends Controller
 {
@@ -33,6 +34,7 @@ class EventosController extends Controller
 
         return Inertia::render('Eventos', [
             'eventos' => $eventos,
+            'tipo_options' => Movimiento::TIPO_OPTIONS,
         ]);
     }
 
@@ -41,8 +43,19 @@ class EventosController extends Controller
         $evento->users()->syncWithoutDetaching(auth()->id());
     }
 
-    public function addMovimiento(Request $request)
+    public function nuevoGasto(Evento $evento, NuevoGastoRequest $request)
     {
-        dd($request->all());
+        // dd($evento, $request->all());
+        $eventoPropio = auth()->user()->eventoPropio($evento->id);
+
+        if (isset($eventoPropio)) {
+            $data['user_id'] = auth()->id();
+            $data['evento_id'] = $evento->id;
+            $data['fecha'] = now();
+            $data['tipo'] = $request->tipo;
+            $data['monto'] = $request->monto;
+            $data['detalle'] = $request->detalle;
+            Movimiento::create($data);
+        }
     }
 }
