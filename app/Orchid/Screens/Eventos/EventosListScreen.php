@@ -61,21 +61,29 @@ class EventosListScreen extends Screen
     {
         return [
             Layout::table('eventos', [
-                TD::make('nombre'),
-                TD::make('Balance')
+                TD::make('nombre')
+                    ->cantHide()
+                    ->sort()
+                    ->filter(TD::FILTER_TEXT)
+                    ->render(function ($row) {
+                        return Link::make($row->nombre)
+                            ->route('platform.eventos.show', $row);
+                    }),
+                TD::make('Gastos totales')
+                    ->alignRight()
                     ->render(function ($row) {
                         return number_format($row->gastos(), 2);
                     }),
+                TD::make('Gastos por usuario')
+                    ->alignRight()
+                    ->render(function ($row) {
+                        return number_format($row->gastosPorUsuario(), 2);
+                    }),
+
 
                 TD::make()
                     ->alignRight()
-                    ->render(function ($row) {
-                        return Link::make()
-                            ->icon('pencil')
-                            ->route('platform.eventos.show', $row);
-                    }),
-                TD::make()
-                    ->alignRight()
+                    ->cantHide()
                     ->render(function ($row) {
                         return Button::make()
                             ->icon('trash')

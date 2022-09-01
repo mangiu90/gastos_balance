@@ -100,25 +100,43 @@ Route::screen('roles', RoleListScreen::class)
     });
 
 // Example...
-Route::screen('example', ExampleScreen::class)
-    ->name('platform.example')
+// Route::screen('example', ExampleScreen::class)
+//     ->name('platform.example')
+//     ->breadcrumbs(function (Trail $trail) {
+//         return $trail
+//             ->parent('platform.index')
+//             ->push('Example screen');
+//     });
+
+// Route::screen('example-fields', ExampleFieldsScreen::class)->name('platform.example.fields');
+// Route::screen('example-layouts', ExampleLayoutsScreen::class)->name('platform.example.layouts');
+// Route::screen('example-charts', ExampleChartsScreen::class)->name('platform.example.charts');
+// Route::screen('example-editors', ExampleTextEditorsScreen::class)->name('platform.example.editors');
+// Route::screen('example-cards', ExampleCardsScreen::class)->name('platform.example.cards');
+// Route::screen('example-advanced', ExampleFieldsAdvancedScreen::class)->name('platform.example.advanced');
+
+
+
+Route::screen('eventos', EventosListScreen::class)
+    ->name('platform.eventos.list')
     ->breadcrumbs(function (Trail $trail) {
         return $trail
             ->parent('platform.index')
-            ->push('Example screen');
+            ->push('Eventos', route('platform.eventos.list'));
     });
 
-Route::screen('example-fields', ExampleFieldsScreen::class)->name('platform.example.fields');
-Route::screen('example-layouts', ExampleLayoutsScreen::class)->name('platform.example.layouts');
-Route::screen('example-charts', ExampleChartsScreen::class)->name('platform.example.charts');
-Route::screen('example-editors', ExampleTextEditorsScreen::class)->name('platform.example.editors');
-Route::screen('example-cards', ExampleCardsScreen::class)->name('platform.example.cards');
-Route::screen('example-advanced', ExampleFieldsAdvancedScreen::class)->name('platform.example.advanced');
+Route::screen('eventos/{evento}', EventoScreen::class)
+    ->name('platform.eventos.show')
+    ->breadcrumbs(function (Trail $trail) {
+        return $trail
+            ->parent('platform.eventos.list')
+            ->push('Evento');
+    });
 
-
-
-Route::screen('eventos', EventosListScreen::class)->name('platform.eventos.list');
-Route::screen('evento/{evento}', EventoScreen::class)->name('platform.eventos.show');
-Route::screen('movimientos', MovimientosListScreen::class)->name('platform.movimientos.list');
-
-//Route::screen('idea', Idea::class, 'platform.screens.idea');
+Route::screen('movimientos', MovimientosListScreen::class)
+    ->name('platform.movimientos.list')
+    ->breadcrumbs(function (Trail $trail) {
+        return $trail
+            ->parent('platform.index')
+            ->push('Moviminetos');
+    });

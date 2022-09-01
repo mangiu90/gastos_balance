@@ -7,14 +7,17 @@ use Orchid\Screen\TD;
 use App\Models\Evento;
 use Orchid\Screen\Screen;
 use App\Models\Movimiento;
+use App\Orchid\Layouts\Movimientos\MovimientoFiltersLayout;
 use Illuminate\Http\Request;
 use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Fields\Select;
 use Orchid\Screen\Actions\Button;
+use Orchid\Screen\Actions\Link;
 use Orchid\Support\Facades\Toast;
 use Orchid\Screen\Fields\Relation;
 use Orchid\Support\Facades\Layout;
 use Orchid\Screen\Actions\ModalToggle;
+use Orchid\Screen\Fields\Group;
 
 class MovimientosListScreen extends Screen
 {
@@ -23,10 +26,22 @@ class MovimientosListScreen extends Screen
      *
      * @return array
      */
-    public function query(): iterable
+    public function query(Request $request): iterable
     {
+        $filter = $request->get('filter', []);
+
         return [
-            'movimientos' => Movimiento::with('user', 'evento')->filters()->paginate(),
+            'filter' => $filter,
+            'movimientos' => Movimiento::with('user', 'evento')
+                ->when(isset($filter['name']), function ($query) use ($filter) {
+                    return $query->whereRelation('user', 'name', 'like', '%' . $filter['name'] . '%');
+                })
+                ->when(isset($filter['evento']), function ($query) use ($filter) {
+                    return $query->whereRelation('evento', 'nombre', 'like', '%' . $filter['evento'] . '%');
+                })
+                // ->filters(MovimientoFiltersLayout::class)
+                ->defaultSort('fecha', 'desc')
+                ->paginate(),
         ];
     }
 
@@ -48,8 +63,9 @@ class MovimientosListScreen extends Screen
     public function commandBar(): iterable
     {
         return [
-            ModalToggle::make('Crear Movimiento')
+            ModalToggle::make('Añadir Movimiento')
                 ->modal('crearMovimientoModal')
+                ->modalTitle('Añadir Movimiento')
                 ->method('crearMovimiento')
                 ->icon('plus'),
         ];
@@ -63,6 +79,23 @@ class MovimientosListScreen extends Screen
     public function layout(): iterable
     {
         return [
+            // MovimientoFiltersLayout::class,
+
+            Layout::rows([
+                Group::make([
+                    Input::make('filter.name')
+                        ->placeholder('Usuario ...'),
+                    Input::make('filter.evento')
+                        ->placeholder('Evento ...'),
+                ]),
+                Group::make([
+                    Button::make('Filtrar')
+                        ->method('filtrar'),
+                    Link::make('Limpiar')
+                        ->route('platform.movimientos.list'),
+                ]),
+            ]),
+
             Layout::table('movimientos', [
                 TD::make('user.name', 'Usuario'),
                 TD::make('evento.nombre', 'Evento'),
@@ -145,5 +178,10 @@ class MovimientosListScreen extends Screen
         Movimiento::findOrFail($request->movimiento_id)->delete();
 
         Toast::info('Movimiento eliminado.');
+    }
+
+    public function filtrar(Request $request)
+    {
+        return redirect()->route('platform.movimientos.list', ['filter' => $request->filter]);
     }
 }

@@ -29,13 +29,13 @@ class PlatformProvider extends OrchidServiceProvider
     {
         return [
             Menu::make(__('Eventos'))
-                ->icon('user')
+                ->icon('fa.calendar')
                 ->route('platform.eventos.list')
                 ->permission('platform.eventos')
                 ->title(__('Access rights')),
 
             Menu::make(__('Movimientos'))
-                ->icon('user')
+                ->icon('fa.money-bill-transfer')
                 ->route('platform.movimientos.list')
                 ->permission('platform.movimientos'),
 
