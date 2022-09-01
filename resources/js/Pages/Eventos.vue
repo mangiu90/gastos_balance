@@ -34,7 +34,7 @@ const unirse = () => {
 
 //unirse modal
 const nuevoGastoForm = useForm({
-    tipo: 'INGRESO',
+    tipo: 'Gasto',
     monto: '',
     detalle: '',
 });
@@ -49,9 +49,14 @@ const nuevoGasto = () => {
         preserveScroll: true,
         preserveState: true,
         onSuccess: () => (eventoAGastar.value = null),
-        onFinish: () => form.reset(),
+        onFinish: () => nuevoGastoForm.reset(),
     });
 };
+
+const cerrarNuevoGastoModal = () => {
+    eventoAGastar.value = null
+    nuevoGastoForm.reset()
+}
 
 </script>
 
@@ -153,7 +158,7 @@ const nuevoGasto = () => {
     </JetConfirmationModal>
 
     <!-- Nuevo Gasto Modal -->
-    <JetDialogModal :show="eventoAGastar != null" @close="eventoAGastar = null">
+    <JetDialogModal :show="eventoAGastar != null" @close="cerrarNuevoGastoModal">
         <template #title>
             Nuevo Gasto para {{ eventoAGastar.nombre }}
         </template>
@@ -162,7 +167,8 @@ const nuevoGasto = () => {
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                     <JetLabel for="tipo" value="Tipo" class="mb-1" />
-                    <select id="tipo" v-model="nuevoGastoForm.tipo" required>
+                    <select id="tipo" v-model="nuevoGastoForm.tipo" required
+                    class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                         <option v-for="tipo_option, key in tipo_options">{{ tipo_option }}</option>
                     </select>
                 </div>
@@ -172,7 +178,7 @@ const nuevoGasto = () => {
                     <JetInputError class="mt-2" :message="nuevoGastoForm.errors.monto" />
                 </div>
                 <div class="mt-4 col-span-2">
-                    <JetLabel for="detalle" value="detalle" />
+                    <JetLabel for="detalle" value="Detalle" />
                     <JetInput id="detalle" v-model="nuevoGastoForm.detalle" type="text" class="mt-1 block w-full" />
                     <JetInputError class="mt-2" :message="nuevoGastoForm.errors.detalle" />
                 </div>
@@ -180,7 +186,7 @@ const nuevoGasto = () => {
         </template>
 
         <template #footer>
-            <JetSecondaryButton @click="eventoAGastar = null">
+            <JetSecondaryButton @click="cerrarNuevoGastoModal">
                 Cancel
             </JetSecondaryButton>
 

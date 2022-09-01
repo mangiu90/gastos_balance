@@ -15,8 +15,8 @@ class Movimiento extends Model
     public const EGRESO = 'EGRESO';
 
     public const TIPO_OPTIONS = [
-        self::INGRESO => self::INGRESO,
-        self::EGRESO => self::EGRESO,
+        self::INGRESO => 'Gasto',
+        self::EGRESO => 'Retiro',
     ];
 
     /**

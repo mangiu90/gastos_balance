@@ -34,7 +34,8 @@ const submit = () => {
 
     <JetAuthenticationCard>
         <template #logo>
-            <JetAuthenticationCardLogo />
+            <!-- <JetAuthenticationCardLogo /> -->
+            <img src="drunken_duck_Beer_2.svg" alt="" style="height: 200px; width: 200px;">
         </template>
 
         <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
@@ -56,7 +57,7 @@ const submit = () => {
             </div>
 
             <div class="mt-4">
-                <JetLabel for="password" value="Password" />
+                <JetLabel for="password" value="Contraseña" />
                 <JetInput
                     id="password"
                     v-model="form.password"
@@ -71,13 +72,17 @@ const submit = () => {
             <div class="block mt-4">
                 <label class="flex items-center">
                     <JetCheckbox v-model:checked="form.remember" name="remember" />
-                    <span class="ml-2 text-sm text-gray-600">Remember me</span>
+                    <span class="ml-2 text-sm text-gray-600">Recordarme</span>
                 </label>
             </div>
 
             <div class="flex items-center justify-end mt-4">
                 <Link v-if="canResetPassword" :href="route('password.request')" class="underline text-sm text-gray-600 hover:text-gray-900">
                     Forgot your password?
+                </Link>
+
+                <Link :href="route('register')" class="underline text-sm text-gray-600 hover:text-gray-900">
+                    Registrarse
                 </Link>
 
                 <JetButton class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">

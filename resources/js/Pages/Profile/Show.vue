@@ -35,7 +35,7 @@ defineProps({
                     <JetSectionBorder />
                 </div>
 
-                <div v-if="$page.props.jetstream.canManageTwoFactorAuthentication">
+                <!-- <div v-if="$page.props.jetstream.canManageTwoFactorAuthentication">
                     <TwoFactorAuthenticationForm 
                         :requires-confirmation="confirmsTwoFactorAuthentication"
                         class="mt-10 sm:mt-0" 
@@ -50,7 +50,7 @@ defineProps({
                     <JetSectionBorder />
 
                     <DeleteUserForm class="mt-10 sm:mt-0" />
-                </template>
+                </template> -->
             </div>
         </div>
     </AppLayout>
