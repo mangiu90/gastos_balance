@@ -69,4 +69,28 @@ class EventosController extends Controller
             'nombre' => $request->nombre,
         ]);
     }
+
+    public function detalle(Evento $evento, Request $request)
+    {
+        return Inertia::render('EventoDetalle', [
+            'evento' => $evento,
+            'gastos' => number_format($evento->gastos(), 2),
+            'gastos_usuario' => number_format($evento->gastosPorUsuario(), 2),
+            'movimientos' => $evento->movimientos()
+                ->with('user')
+                ->orderBy('id', 'desc')
+                ->paginate()
+                ->withQueryString()
+                ->through(fn ($movimiento) => [
+                    'id' => $movimiento->id,
+                    'fecha' => $movimiento->fecha,
+                    'monto' => $movimiento->monto,
+                    'monto_format' => number_format($movimiento->monto, 2),
+                    'tipo' => $movimiento->tipo,
+                    'detalle' => $movimiento->detalle,
+                    'user_id' => $movimiento->user_id,
+                    'user_name' => $movimiento->user->name,
+                ]),
+        ]);
+    }
 }

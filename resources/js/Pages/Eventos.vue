@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue';
-import { useForm } from '@inertiajs/inertia-vue3';
+import { useForm, Link } from '@inertiajs/inertia-vue3';
 import AppLayout from '@/Layouts/AppLayout.vue';
 import JetButton from '@/Components/Button.vue';
 import JetConfirmationModal from '@/Components/ConfirmationModal.vue';
@@ -32,7 +32,7 @@ const unirse = () => {
     });
 };
 
-//unirse modal
+//nuevo gasto modal
 const nuevoGastoForm = useForm({
     tipo: 'INGRESO',
     monto: '',
@@ -104,7 +104,9 @@ const cerrarCrearEventoModal = () => {
                     <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg mb-5">
 
                         <div class="flex justify-between">
+                            <Link :href="route('evento.detalle', evento.id)">
                             <h1 class="p-3">{{ evento.nombre }}</h1>
+                            </Link>
 
                             <button v-if="!evento.usuario_pertenece" type="button" @click="confirmUnirse(evento)"
                                 class="mt-2 focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
@@ -143,7 +145,7 @@ const cerrarCrearEventoModal = () => {
                                         <td class="py-4 px-6 text-end">
                                             {{ item.gastos }}
                                         </td>
-                                        <td :class="{ 'text-green-600': item.color == 'green', 'text-red-600': item.color == 'red' }"
+                                        <td :class="{ 'text-green-800': item.color == 'green', 'text-red-800': item.color == 'red' }"
                                             class="py-4 px-6 text-end">
                                             {{ item.balance }}
                                         </td>
