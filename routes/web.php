@@ -18,7 +18,7 @@ use Inertia\Inertia;
 */
 
 Route::get('/', function () {
-    return Inertia::location(route('platform.main'));
+    return Inertia::location(route('eventos'));
 });
 
 Route::middleware([
