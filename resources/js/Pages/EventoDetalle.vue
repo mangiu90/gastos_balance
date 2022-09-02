@@ -118,12 +118,32 @@ const confirmarSalirEvento = (evento) => {
 };
 
 const salirEvento = () => {
+    play()
     salirForm.post(route('eventos.salir', eventoASalir.value.id), {
         preserveScroll: true,
         preserveState: true,
         onSuccess: () => (eventoASalir.value = null),
     });
 };
+
+const play = () => {
+    const sounds = [
+        'BORING.mp3',
+        'BYEBYE.mp3',
+        'COWARD.mp3',
+        'FIRSTBLOOD.mp3',
+        'GOAWAY.mp3',
+        'ILLGETYOU.mp3',
+        'NOOO.mp3',
+        'OHDEAR.mp3',
+        'REVENGE.mp3',
+        'TRAITOR.mp3',
+        'YOULLREGRETTHAT.mp3',
+    ];
+    const randomElement = sounds[Math.floor(Math.random() * sounds.length)];
+    const music = new Audio('/sounds/' + randomElement);
+    music.play();
+}
 
 </script>
 
