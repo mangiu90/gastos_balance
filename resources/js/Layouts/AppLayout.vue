@@ -30,7 +30,9 @@ const logout = () => {
 
 <template>
     <div>
-        <Head :title="title" />
+        <Head :title="title" >
+            <link rel="icon" type="image/svg+xml" href="/drunken_duck_Beer_2.svg" />
+        </Head>
 
         <JetBanner />
 
