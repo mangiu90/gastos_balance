@@ -76,6 +76,7 @@ class EventosController extends Controller
             'evento' => $evento,
             'gastos' => number_format($evento->gastos(), 2),
             'gastos_usuario' => number_format($evento->gastosPorUsuario(), 2),
+            'usuario_pertenece' => $evento->usuarioPertenece(auth()->id()),
             'movimientos' => $evento->movimientos()
                 ->with('user')
                 ->orderBy('id', 'desc')
@@ -91,6 +92,13 @@ class EventosController extends Controller
                     'user_id' => $movimiento->user_id,
                     'user_name' => $movimiento->user->name,
                 ]),
+            'tipo_options' => Movimiento::TIPO_OPTIONS,
         ]);
+    }
+
+    public function salir(Evento $evento)
+    {
+        $evento->movimientos()->where('user_id', auth()->id())->delete();
+        $evento->users()->detach(auth()->id());
     }
 }
