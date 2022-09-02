@@ -105,7 +105,7 @@ const cerrarCrearEventoModal = () => {
 
                         <div class="flex justify-between">
                             <Link :href="route('evento.detalle', evento.id)">
-                            <h1 class="p-3">{{ evento.nombre }}</h1>
+                            <h1 class="p-3 hover:text-blue-800">{{ evento.nombre }}</h1>
                             </Link>
 
                             <button v-if="!evento.usuario_pertenece" type="button" @click="confirmUnirse(evento)"
