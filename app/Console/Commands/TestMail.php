@@ -30,7 +30,7 @@ class TestMail extends Command
     public function handle()
     {
         try {
-            Mail::to("giudimanuel@gmail.com")->send(new \App\Mail\TestMail());
+            Mail::to("giudicimanuel@gmail.com")->send(new \App\Mail\TestMail());
             $this->info('mail enviado');
         } catch (\Throwable $th) {
             $this->error($th->getMessage());
