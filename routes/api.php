@@ -19,11 +19,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get("test", function(){
+// Route::get("test", function(){
     
-    Mail::to("giudimanuel@gmail.com")->send(new \App\Mail\TestMail());
+//     Mail::to("giudimanuel@gmail.com")->send(new \App\Mail\TestMail());
 
-    return response()->json([
-        "message" => "Email enviado"
-    ], 200);
-});
+//     return response()->json([
+//         "message" => "Email enviado"
+//     ], 200);
+// });
