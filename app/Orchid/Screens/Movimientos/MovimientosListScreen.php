@@ -136,7 +136,7 @@ class MovimientosListScreen extends Screen
                         ->required()
                         ->title('Evento'),
                     Input::make('movimiento.detalle')
-                        ->required()
+                        // ->required()
                         ->title('Detalle'),
                     Input::make('movimiento.monto')
                         ->required()
