@@ -26,7 +26,7 @@ class NuevoGastoRequest extends FormRequest
         return [
             'tipo' => ['required'],
             'monto' => ['required', 'numeric', 'gt:0', 'max:9999999999999999'],
-            'detalle' => ['required', 'max:255'],
+            'detalle' => ['nullable', 'max:255'],
         ];
     }
 
