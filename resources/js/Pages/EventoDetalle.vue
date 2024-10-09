@@ -156,17 +156,17 @@ const play = () => {
                 </h2>
                 <div>
                     <button v-if="!usuario_pertenece" type="button" @click="confirmUnirse(evento)"
-                        class="mt-2 focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
+                        class="mt-2 focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2">
                         Unirse
                     </button>
 
                     <button v-if="usuario_pertenece" type="button" @click="confirmNuevoGasto(evento)"
-                        class="mt-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                        class="mt-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2">
                         Nuevo Gasto
                     </button>
 
                     <button v-if="usuario_pertenece" type="button" @click="confirmarSalirEvento(evento)"
-                        class="mt-2 focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">
+                        class="mt-2 focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2">
                         Salir
                     </button>
                 </div>
@@ -184,9 +184,9 @@ const play = () => {
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                     <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg mb-5">
                         <div class="overflow-x-auto relative">
-                            <table class="w-full text-sm text-left text-gray-900 dark:text-gray-400">
+                            <table class="w-full text-sm text-left text-gray-900 ">
                                 <thead
-                                    class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                    class="text-xs text-gray-700 uppercase bg-gray-50 ">
                                     <tr>
                                         <th scope="col" class="py-3 px-6">
                                             Fecha
@@ -210,9 +210,9 @@ const play = () => {
                                 </thead>
                                 <tbody>
                                     <tr v-if="movimientos && movimientos.data" v-for="movimiento in movimientos.data"
-                                        class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                        class="bg-white border-b">
                                         <th scope="row"
-                                            class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                            class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap ">
                                             {{ movimiento.fecha }}
                                         </th>
                                         <td class="py-4 px-6">
