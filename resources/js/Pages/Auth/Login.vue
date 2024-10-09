@@ -29,29 +29,29 @@ const submit = () => {
     });
 };
 
-const play = () => {
-    const music = new Audio('/sounds/ein_prosit.mp3');
-    music.play().catch((error) => {
-        console.error('La reproducción automática fue bloqueada por el navegador', error);
-    });
-};
+// const play = () => {
+//     const music = new Audio('/sounds/ein_prosit.mp3');
+//     music.play().catch((error) => {
+//         console.error('La reproducción automática fue bloqueada por el navegador', error);
+//     });
+// };
 
-// Función para manejar cualquier clic en el documento
-const handleClick = () => {
-    play();
-    // Eliminar el event listener después del primer clic para evitar múltiples reproducciones
-    document.removeEventListener('click', handleClick);
-};
+// // Función para manejar cualquier clic en el documento
+// const handleClick = () => {
+//     play();
+//     // Eliminar el event listener después del primer clic para evitar múltiples reproducciones
+//     document.removeEventListener('click', handleClick);
+// };
 
-// Ejecutar el listener cuando el componente esté montado
-onMounted(() => {
-    document.addEventListener('click', handleClick);
-});
+// // Ejecutar el listener cuando el componente esté montado
+// onMounted(() => {
+//     document.addEventListener('click', handleClick);
+// });
 
-// Limpiar el listener cuando el componente se destruya
-onBeforeUnmount(() => {
-    document.removeEventListener('click', handleClick);
-});
+// // Limpiar el listener cuando el componente se destruya
+// onBeforeUnmount(() => {
+//     document.removeEventListener('click', handleClick);
+// });
 </script>
 
 <template>
