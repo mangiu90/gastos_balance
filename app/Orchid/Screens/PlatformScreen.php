@@ -4,8 +4,13 @@ declare(strict_types=1);
 
 namespace App\Orchid\Screens;
 
+use App\Models\Evento;
+use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\Link;
+use Orchid\Screen\Fields\Group;
+use Orchid\Screen\Fields\Relation;
 use Orchid\Screen\Screen;
+use Orchid\Screen\Sight;
 use Orchid\Support\Facades\Layout;
 
 class PlatformScreen extends Screen
@@ -17,7 +22,21 @@ class PlatformScreen extends Screen
      */
     public function query(): iterable
     {
-        return [];
+        // dd(request()->all());
+        $evento_id = request()->get('evento_id', 0);
+
+        $evento = Evento::find($evento_id);
+
+        if ($evento) {
+            // dd($evento->minimizarTransferencias());
+
+            return [
+                'transferencias' => $evento->minimizarTransferencias(),
+            ];
+        }
+        return [
+
+        ];
     }
 
     /**
@@ -47,9 +66,7 @@ class PlatformScreen extends Screen
      */
     public function commandBar(): iterable
     {
-        return [
-
-        ];
+        return [];
     }
 
     /**
@@ -60,7 +77,22 @@ class PlatformScreen extends Screen
     public function layout(): iterable
     {
         return [
+            Layout::rows([
+                Relation::make('evento_id')
+                    ->fromModel(Evento::class, 'nombre')
+                    ->required()
+                    ->title('Evento'),
 
+                Button::make('Generar')
+                    ->method('generar'),
+            ]),
+
+            Layout::view('transferencias'),
         ];
+    }
+
+    public function generar()
+    {
+        return redirect()->route('platform.main', ['evento_id' => request()->get('evento_id')]);
     }
 }
